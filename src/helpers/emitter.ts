@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/method-signature-style */
-
 /**
  * This is a simpler version of `Record<T, U>` which do not rely
  * on index type checks to determine whether a type is an object
  * or not. Unlike the `object` type, this has an additional checks
  * to exclude `Array<T>`, and are intended to be used in an `extends` clause.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyRecord<T> = any[] extends T ? never : object;
 
 /**
@@ -49,7 +46,7 @@ export type WildCardEventHandlerList<T = Record<string, unknown>> = Array<
 >;
 
 export type EventHandlerMap<Events extends AnyRecord<Events>> = Map<
-  keyof Events | '*',
+  keyof Events | "*",
   EventHandlerList<Events[keyof Events]> | WildCardEventHandlerList<Events>
 >;
 
@@ -57,13 +54,13 @@ export interface Emitter<Events extends AnyRecord<Events>> {
   all: EventHandlerMap<Events>;
 
   on<Key extends keyof Events>(type: Key, handler: Handler<Events[Key]>): void;
-  on(type: '*', handler: WildcardHandler<Events>): void;
+  on(type: "*", handler: WildcardHandler<Events>): void;
 
   off<Key extends keyof Events>(
     type: Key,
     handler?: Handler<Events[Key]>
   ): void;
-  off(type: '*', handler: WildcardHandler<Events>): void;
+  off(type: "*", handler: WildcardHandler<Events>): void;
 
   emit<Key extends keyof Events>(type: Key, event: Events[Key]): void;
   emit<Key extends keyof Events>(
@@ -142,12 +139,11 @@ function mitt<Events extends AnyRecord<Events>>(
              * function overload it will map only to `undefined` while kept
              * enforcing the other types to be required.
              */
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             handler(evt!);
           });
       }
 
-      handlers = instance.get('*');
+      handlers = instance.get("*");
       if (handlers) {
         (handlers as WildCardEventHandlerList<Events>)
           .slice()
@@ -157,7 +153,6 @@ function mitt<Events extends AnyRecord<Events>>(
              * function overload it will map only to `undefined` while kept
              * enforcing the other types to be required.
              */
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             handler(type, evt!);
           });
       }
